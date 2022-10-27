@@ -1,31 +1,17 @@
 # Lilia Bodnar
 # Lab 7
 # 10272022
-# Region,Country,State,Month,Day,Year,AvgTemperature
 
+# get all the basic stuff and organize it by region
 import pandas as pd
 from pathlib import Path
-
-datapath = Path("data") / "city_temperature.csv"
+datapath = Path("city_temperature.csv")
 df = pd.read_csv(datapath, sep=",")
-print(df)
+newGrouping = pd.read_csv(datapath, sep=",").groupby(['Region'])
 
-df.groupby(['Region'])
-print(df)
+# find the max using idmax from the notes with the baseball.txt
+maxTempsRegion = newGrouping["AvgTemperature"].idxmax()
+maxTemps = df.loc[maxTempsRegion]
 
-# create a new CSV called outfile
-outfile = Path("data") / "city_maxtemp.csv"
-
-# create a for loop that finds the max
-regionMax = 0
-for region in df:
-    for line in region:
-        if(region["AvgTemperature"] > regionMax ):
-            regionMax = region["AvgTemperature"]
-    # add the row to the csv file 
-    outfile["highestTemp"] = outfile.apply(lambda row: region, axis = 1)
-    # reset the region max to 0
-    regionMax = 0
-
-# save the csv
-df.to_csv(outfile, index_label="index")
+# create the outfile and save the csv in the same line
+maxTemps.to_csv(Path("city_maxtemp.csv"), index = False)

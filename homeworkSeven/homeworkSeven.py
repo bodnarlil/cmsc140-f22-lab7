@@ -14,7 +14,7 @@ df.groupby(['Region'])
 print(df)
 
 # create a new CSV called outfile
-outfile = Path("data") / "cityTempsEdited.csv"
+outfile = Path("data") / "city_maxtemp.csv"
 
 # create a for loop that finds the max
 regionMax = 0
@@ -22,8 +22,8 @@ for region in df:
     for line in region:
         if(region["AvgTemperature"] > regionMax ):
             regionMax = region["AvgTemperature"]
-            # add the row to the csv file
-            outfile["highestTemp"] = outfile.apply(lambda row: region, axis = 1)
+    # add the row to the csv file 
+    outfile["highestTemp"] = outfile.apply(lambda row: region, axis = 1)
     # reset the region max to 0
     regionMax = 0
 
